@@ -1,6 +1,6 @@
 {
   "name": "discord-client-wrapper",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "A Ts Discord Client API Wrapper",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,9 +13,13 @@
 	"test": "npm run build && npm pack",
 	"test-light": "npm run build && npm pack --dry-run"
   },
-  "keywords": [],
+  "keywords": ["discord", "typescript", "node.js", "api"],
+  "repository": {
+	"type": "git",
+    "url": "https://github.com/judegiordano/discord-client-wrapper"
+  },
   "author": "Jude Giordano",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^14.14.33",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
