@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 import * as Constants from "./Types/Constants";
-import { IMessage, IHeaders, IMessageData } from "./Types/Payloads";
+import { IMessage, IHeaders, IMessageData, IGuilds } from "./Types/Payloads";
 
 /**
  * entry point for connecting to the discord client api
@@ -42,6 +42,22 @@ export class Client {
 	}
 
 	/**
+	 * Wrapper for azios get
+	 * @private
+	 * @static
+	 * @param {string} [url]
+	 * @return {*}  {Promise<AxiosResponse>}
+	 * @memberof Client
+	 */
+	private static async Get(url?: string): Promise<AxiosResponse> {
+		try {
+			return await axios.get(`${Client.baseUrl}/${url || ""}`, Client.headers);
+		} catch (error) {
+			throw Error(error);
+		}
+	}
+
+	/**
 	 * Send a message to the provided channel id
 	 * @param {string} message
 	 * @param {string} channel
@@ -60,6 +76,18 @@ export class Client {
 			throw Error(error);
 		}
 	}
-}
 
-export { IMessage, IMessageData, IHeaders };
+	/**
+	 * Return an array of joined guilds
+	 * @return {*}  {Promise<IMessageData>}
+	 * @memberof Client
+	 */
+	public async GetServers(): Promise<IGuilds[]> {
+		try {
+			const response: AxiosResponse = await Client.Get(Constants.Endpoints.guilds);
+			return response.data;
+		} catch (error) {
+			throw Error(error);
+		}
+	}
+}

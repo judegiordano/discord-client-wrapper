@@ -41,3 +41,16 @@ export interface IMessageData {
 	nonce: number,
 	referenced_message: string | any
 }
+
+interface IGuildFeature {
+	feature: string | number[]
+}
+export interface IGuilds {
+	features: IGuildFeature,
+	icon: string,
+	permissions_new: string,
+	permissions: number,
+	owner: boolean,
+	name: string,
+	id: string
+}
