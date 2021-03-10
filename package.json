@@ -1,6 +1,6 @@
 {
   "name": "discord-client-wrapper",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A Ts Discord Client API Wrapper",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -9,9 +9,9 @@
     "build": "tsc -p .",
     "prestart": "npm run build",
     "start": "node .",
-	"deliver": "npm run build && npm publish",
-	"test": "npm run build && npm pack",
-	"test-light": "npm run build && npm pack --dry-run"
+	"release": "npm run build && npm publish",
+	"package": "npm run build && npm pack",
+	"package-light": "npm run build && npm pack --dry-run"
   },
   "keywords": ["discord", "typescript", "node.js", "api"],
   "repository": {
