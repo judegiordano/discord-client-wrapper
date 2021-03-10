@@ -21,4 +21,4 @@ jobs:
       run: npm ci
 
     - name: lint project
-      run: npm run postinstall
+      run: npm run prestart
