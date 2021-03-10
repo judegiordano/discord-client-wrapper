@@ -20,6 +20,8 @@ export class Client {
 	 * @memberof Client
 	 */
 	constructor(token: string) {
+		if (!token)
+			throw new Error(Constants.Errors.token);
 		Client.headers = { headers: { authorization: token } };
 	}
 
