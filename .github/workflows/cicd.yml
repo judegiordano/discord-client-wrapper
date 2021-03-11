@@ -48,10 +48,4 @@ jobs:
       run: npm run build
       
     - name: test project
-      env:
-        CLIENT_TOKEN: ${{ secrets.CLIENT_TOKEN }}
-        SERVER_ID: ${{ secrets.SERVER_ID }}
-        SERVER_NAME: ${{ secrets.SERVER_NAME }}
-        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-
       run: npm run test
