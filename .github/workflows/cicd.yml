@@ -22,3 +22,28 @@ jobs:
 
     - name: lint project
       run: npm run prestart
+
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install dependencies
+      run: npm ci
+
+    - name: build project
+      run: npm run build
+      
+    - name: test project
+      env:
+        CLIENT_TOKEN: ${{ secrets.CLIENT_TOKEN }}
+        SERVER_ID: ${{ secrets.SERVER_ID }}
+        SERVER_NAME: ${{ secrets.SERVER_NAME }}
+        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+
+      run: npm run jest
