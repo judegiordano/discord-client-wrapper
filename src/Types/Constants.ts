@@ -1,6 +1,7 @@
 export const enum Endpoints {
-	discord = "https://discordapp.com/api/v8",
-	guilds = "users/@me/guilds"
+	discord = "https://discordapp.com/api/v6",
+	guilds = "users/@me/guilds",
+	invite = "invite"
 }
 
 export const enum Errors {

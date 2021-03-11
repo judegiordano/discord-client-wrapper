@@ -14,7 +14,6 @@ export interface IMessage {
 	tts: boolean
 }
 
-
 interface IAuthor {
 	id: string,
 	username: string,
@@ -45,12 +44,45 @@ export interface IMessageData {
 interface IGuildFeature {
 	feature: string | number[]
 }
-export interface IGuilds {
+export interface IGuild {
 	features: IGuildFeature,
 	icon: string,
+	splash: any,
+	banner: any,
 	permissions_new: string,
+	description: any,
 	permissions: number,
 	owner: boolean,
 	name: string,
 	id: string
+}
+
+export interface ICreateInvite {
+	max_age: number,
+	max_uses: number,
+	temporary: boolean
+}
+
+interface IChannel {
+	id: string,
+	name: string,
+	type: number
+}
+interface IInviter {
+	id: string,
+	username: string,
+	avatar: string,
+	discriminator: string,
+	public_flags: number
+}
+export interface IInvite {
+	code: string,
+	guild: IGuild,
+	channel: IChannel,
+	inviter: IInviter,
+	uses: number,
+	max_uses: number,
+	max_age: number,
+	temporary: boolean,
+	created_at: Date
 }

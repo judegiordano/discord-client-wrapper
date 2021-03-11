@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 import * as Constants from "./Types/Constants";
-import { IMessage, IHeaders, IMessageData, IGuilds } from "./Types/Payloads";
+import { IMessage, IHeaders, IMessageData, IGuild, ICreateInvite, IInvite } from "./Types/Payloads";
 
 /**
  * entry point for connecting to the discord client api
@@ -60,7 +60,7 @@ export class Client {
 	/**
 	 * Send a message to the provided channel id
 	 * @param {string} message
-	 * @param {string} channel
+	 * @param {number} string
 	 * @return {*}  {Promise<IMessageData>}
 	 * @memberof Client
 	 */
@@ -82,9 +82,59 @@ export class Client {
 	 * @return {*}  {Promise<IMessageData>}
 	 * @memberof Client
 	 */
-	public async GetServers(): Promise<IGuilds[]> {
+	public async GetServers(): Promise<IGuild[]> {
 		try {
 			const response: AxiosResponse = await Client.Get(Constants.Endpoints.guilds);
+			return response.data;
+		} catch (error) {
+			throw Error(error);
+		}
+	}
+
+	/**
+	 * Return an array of messages
+	 * @param {string} channel
+	 * @param {number} limit defaults to 50 if ommited; limit of 100
+	 * @return {*}  {Promise<IMessageData[]>}
+	 * @memberof Client
+	 */
+	public async GetMessages(channel: string, limit?: number): Promise<IMessageData[]> {
+		try {
+			const endpoint = `channels/${channel}/messages${!limit ? "" : `?limit=${limit}`}`;
+			const response: AxiosResponse = await Client.Get(endpoint);
+			return response.data;
+		} catch (error) {
+			throw Error(error);
+		}
+	}
+
+	/**
+	 * Creates a guild invite
+	 * @param {string} channel
+	 * @return {*}  {Promise<IInvite>}
+	 * @memberof Client
+	 */
+	public async CreateInvite(channel: string): Promise<IInvite> {
+		try {
+			const body: ICreateInvite = { max_age: 0, max_uses: 0, temporary: false };
+			const endpoint = `channels/${channel}/invites`;
+			const response: AxiosResponse = await Client.Post(body, endpoint);
+			return response.data;
+		} catch (error) {
+			throw Error(error);
+		}
+	}
+
+	/**
+	 * Join a server from an invite code
+	 * @param {string} inviteCode
+	 * @return {*}  {Promise<IInvite>}
+	 * @memberof Client
+	 */
+	public async JoinServer(inviteCode: string): Promise<IInvite> {
+		try {
+			const endpoint = `${Constants.Endpoints.invite}/${inviteCode}`;
+			const response: AxiosResponse = await Client.Post({}, endpoint);
 			return response.data;
 		} catch (error) {
 			throw Error(error);
