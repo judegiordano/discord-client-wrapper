@@ -22,16 +22,3 @@ jobs:
 
     - name: lint project
       run: npm run prestart
-
-  test:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x]
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: run tests
-      run: npm run test
