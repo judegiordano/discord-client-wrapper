@@ -20,7 +20,7 @@ export class Rest {
 						data += chunk;
 					});
 					response.on("end", (): void => {
-						return resolve(data);
+						return resolve(JSON.parse(data));
 					});
 				});
 
@@ -50,7 +50,7 @@ export class Rest {
 						data += chunk;
 					});
 					response.on("end", (): void => {
-						return resolve(data);
+						return resolve(JSON.parse(data));
 					});
 				});
 

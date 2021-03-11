@@ -32,7 +32,7 @@ export class Client {
 	 * @static
 	 * @param {unknown} body
 	 * @param {string} [url]
-	 * @return {*}  {Promise<AxiosResponse>}
+	 * @return {*}  {Promise<any>}
 	 * @memberof Client
 	 */
 	private static async Post(body: unknown, url?: string): Promise<any> {
@@ -48,7 +48,7 @@ export class Client {
 	 * @private
 	 * @static
 	 * @param {string} [url]
-	 * @return {*}  {Promise<AxiosResponse>}
+	 * @return {*}  {Promise<any>}
 	 * @memberof Client
 	 */
 	private static async Get(url?: string): Promise<any> {
