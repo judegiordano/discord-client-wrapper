@@ -14,7 +14,6 @@ const client = new Client(config.CLIENT_TOKEN);
 describe("client requests", () => {
 
 	it("should fetch a server", async () => {
-		const client = new Client(config.CLIENT_TOKEN);
 		const servers = await client.GetServers();
 		const testServer = servers.filter(a => a.id == config.SERVER_ID)[0];
 		expect(testServer.name).toEqual(config.SERVER_NAME);
