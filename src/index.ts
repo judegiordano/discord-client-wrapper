@@ -1,7 +1,9 @@
-import axios, { AxiosResponse } from "axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Rest } from "./Services/Rest";
+import { OutgoingHttpHeaders } from "node:http";
 
 import * as Constants from "./Types/Constants";
-import { IMessage, IHeaders, IMessageData, IGuild, ICreateInvite, IInvite } from "./Types/Payloads";
+import { IMessage, IMessageData, IGuild, ICreateInvite, IInvite } from "./Types/Payloads";
 
 /**
  * entry point for connecting to the discord client api
@@ -12,7 +14,7 @@ import { IMessage, IHeaders, IMessageData, IGuild, ICreateInvite, IInvite } from
 export class Client {
 
 	private static readonly baseUrl: string = Constants.Endpoints.discord;
-	private static headers: IHeaders;
+	private static headers: OutgoingHttpHeaders;
 
 	/**
 	 * used by constructor to connect
@@ -22,7 +24,7 @@ export class Client {
 	constructor(token: string) {
 		if (!token)
 			throw new Error(Constants.Errors.token);
-		Client.headers = { headers: { authorization: token } };
+		Client.headers = { "authorization": token, "Content-Type": "application/json", };
 	}
 
 	/**
@@ -33,9 +35,9 @@ export class Client {
 	 * @return {*}  {Promise<AxiosResponse>}
 	 * @memberof Client
 	 */
-	private static async Post(body: unknown, url?: string): Promise<AxiosResponse> {
+	private static async Post(body: unknown, url?: string): Promise<any> {
 		try {
-			return await axios.post(`${Client.baseUrl}/${url || ""}`, body, Client.headers);
+			return await Rest.Post(`${Client.baseUrl}/${url || ""}`, Client.headers, body);
 		} catch (error) {
 			throw Error(error);
 		}
@@ -49,9 +51,9 @@ export class Client {
 	 * @return {*}  {Promise<AxiosResponse>}
 	 * @memberof Client
 	 */
-	private static async Get(url?: string): Promise<AxiosResponse> {
+	private static async Get(url?: string): Promise<any> {
 		try {
-			return await axios.get(`${Client.baseUrl}/${url || ""}`, Client.headers);
+			return await Rest.Get(`${Client.baseUrl}/${url || ""}`, Client.headers);
 		} catch (error) {
 			throw Error(error);
 		}
@@ -69,9 +71,7 @@ export class Client {
 			const body: IMessage = { content: message, nonce: Date.now(), tts: false };
 			const endpoint = `channels/${channel}/messages`;
 
-			const response: AxiosResponse = await Client.Post(body, endpoint);
-
-			return response.data;
+			return await Client.Post(body, endpoint);
 		} catch (error) {
 			throw Error(error);
 		}
@@ -84,8 +84,7 @@ export class Client {
 	 */
 	public async GetServers(): Promise<IGuild[]> {
 		try {
-			const response: AxiosResponse = await Client.Get(Constants.Endpoints.guilds);
-			return response.data;
+			return await Client.Get(Constants.Endpoints.guilds);
 		} catch (error) {
 			throw Error(error);
 		}
@@ -101,8 +100,7 @@ export class Client {
 	public async GetMessages(channel: string, limit?: number): Promise<IMessageData[]> {
 		try {
 			const endpoint = `channels/${channel}/messages${!limit ? "" : `?limit=${limit}`}`;
-			const response: AxiosResponse = await Client.Get(endpoint);
-			return response.data;
+			return await Client.Get(endpoint);
 		} catch (error) {
 			throw Error(error);
 		}
@@ -118,8 +116,7 @@ export class Client {
 		try {
 			const body: ICreateInvite = { max_age: 0, max_uses: 0, temporary: false };
 			const endpoint = `channels/${channel}/invites`;
-			const response: AxiosResponse = await Client.Post(body, endpoint);
-			return response.data;
+			return await Client.Post(body, endpoint);
 		} catch (error) {
 			throw Error(error);
 		}
@@ -134,8 +131,7 @@ export class Client {
 	public async JoinServer(inviteCode: string): Promise<IInvite> {
 		try {
 			const endpoint = `${Constants.Endpoints.invite}/${inviteCode}`;
-			const response: AxiosResponse = await Client.Post({}, endpoint);
-			return response.data;
+			return await Client.Post({}, endpoint);
 		} catch (error) {
 			throw Error(error);
 		}

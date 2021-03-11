@@ -4,10 +4,6 @@ export interface IHeader {
 	authorization: string
 }
 
-export interface IHeaders {
-	headers: IHeader
-}
-
 export interface IMessage {
 	content: string,
 	nonce: number,
