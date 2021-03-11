@@ -46,4 +46,4 @@ jobs:
         SERVER_NAME: ${{ secrets.SERVER_NAME }}
         CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
 
-      run: npm run jest
+      run: npm run test
