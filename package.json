@@ -1,6 +1,6 @@
 {
   "name": "discord-client-wrapper",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "A Ts Discord Client API Wrapper",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -12,7 +12,7 @@
     "release": "npm run build && npm publish",
     "package": "npm run build && npm pack",
     "package-light": "npm run build && npm pack --dry-run",
-    "test": "jest"
+    "test": "npm run build && jest"
   },
   "keywords": [
     "discord",

@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+export interface IResponse {
+	ok: boolean,
+	statusCode: number | undefined,
+	statusMessage: string | undefined,
+	headers?: string[],
+	data: any | undefined
+}
+
 export interface IHeader {
 	authorization: string
 }

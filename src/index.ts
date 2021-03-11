@@ -3,7 +3,7 @@ import { Rest } from "./Services/Rest";
 import { OutgoingHttpHeaders } from "node:http";
 
 import * as Constants from "./Types/Constants";
-import { IMessage, IMessageData, IGuild, ICreateInvite, IInvite } from "./Types/Payloads";
+import { IMessage, IMessageData, IGuild, ICreateInvite, IInvite, IResponse } from "./Types/Payloads";
 
 /**
  * entry point for connecting to the discord client api
@@ -35,7 +35,7 @@ export class Client {
 	 * @return {*}  {Promise<any>}
 	 * @memberof Client
 	 */
-	private static async Post(body: unknown, url?: string): Promise<any> {
+	private static async Post(body: unknown, url?: string): Promise<IResponse> {
 		try {
 			return await Rest.Post(`${Client.baseUrl}/${url || ""}`, Client.headers, body);
 		} catch (error) {
@@ -51,7 +51,7 @@ export class Client {
 	 * @return {*}  {Promise<any>}
 	 * @memberof Client
 	 */
-	private static async Get(url?: string): Promise<any> {
+	private static async Get(url?: string): Promise<IResponse> {
 		try {
 			return await Rest.Get(`${Client.baseUrl}/${url || ""}`, Client.headers);
 		} catch (error) {
@@ -70,8 +70,8 @@ export class Client {
 		try {
 			const body: IMessage = { content: message, nonce: Date.now(), tts: false };
 			const endpoint = `channels/${channel}/messages`;
-
-			return await Client.Post(body, endpoint);
+			const response = await Client.Post(body, endpoint);
+			return response.data;
 		} catch (error) {
 			throw Error(error);
 		}
@@ -84,7 +84,8 @@ export class Client {
 	 */
 	public async GetServers(): Promise<IGuild[]> {
 		try {
-			return await Client.Get(Constants.Endpoints.guilds);
+			const response = await Client.Get(Constants.Endpoints.guilds);
+			return response.data;
 		} catch (error) {
 			throw Error(error);
 		}
@@ -100,7 +101,8 @@ export class Client {
 	public async GetMessages(channel: string, limit?: number): Promise<IMessageData[]> {
 		try {
 			const endpoint = `channels/${channel}/messages${!limit ? "" : `?limit=${limit}`}`;
-			return await Client.Get(endpoint);
+			const response = await Client.Get(endpoint);
+			return response.data;
 		} catch (error) {
 			throw Error(error);
 		}
@@ -116,7 +118,8 @@ export class Client {
 		try {
 			const body: ICreateInvite = { max_age: 0, max_uses: 0, temporary: false };
 			const endpoint = `channels/${channel}/invites`;
-			return await Client.Post(body, endpoint);
+			const response = await Client.Post(body, endpoint);
+			return response.data;
 		} catch (error) {
 			throw Error(error);
 		}
@@ -131,7 +134,8 @@ export class Client {
 	public async JoinServer(inviteCode: string): Promise<IInvite> {
 		try {
 			const endpoint = `${Constants.Endpoints.invite}/${inviteCode}`;
-			return await Client.Post({}, endpoint);
+			const response = await Client.Post({}, endpoint);
+			return response.data;
 		} catch (error) {
 			throw Error(error);
 		}
